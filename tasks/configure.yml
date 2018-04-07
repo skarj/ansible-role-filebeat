@@ -1,0 +1,17 @@
+---
+
+- name: ensure conf.d directory exists
+  file:
+    path: "{{ filebeat.config_path }}/conf.d/"
+    state: directory
+    mode: 0644
+
+- name: deliver filebeat config
+  copy:
+    content: "{{ filebeat.options | to_nice_yaml }}"
+    dest: "{{ filebeat.config_path }}/filebeat.yml"
+    mode: 0644
+    backup: yes
+    validate: filebeat test config --strict.perms=false -c %s
+  notify:
+    - filebeat restart

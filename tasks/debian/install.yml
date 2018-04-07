@@ -1,0 +1,60 @@
+---
+
+- name: get information about installed filebeat package
+  shell: dpkg -s filebeat | grep "Version:"
+  changed_when: false
+  failed_when: false
+  register: dpkg_info
+  args:
+    warn: false
+  check_mode: no
+
+- name: get version of installed filebeat package
+  set_fact:
+    installed_package_version: "{{ dpkg_info.stdout.split(' ')[1] }}"
+  check_mode: no
+  when:
+    - dpkg_info is defined
+    - dpkg_info.stdout_lines | list | length > 0
+
+- name: show filebeat version
+  debug:
+    msg: "{% if installed_package_version is defined %}Current: {{ installed_package_version }} {% endif %}Install: {{ filebeat.version }}"
+
+- name: get information about version locks
+  command: dpkg --get-selections filebeat
+  changed_when: false
+  register: dpkg_hold
+  args:
+    warn: false
+  check_mode: no
+  when: filebeat.pin_version
+
+- name: remove version lock for filebeat package
+  dpkg_selections:
+    name: filebeat
+    selection: install
+  when:
+    - filebeat.pin_version
+    - "'hold' in dpkg_hold.stdout"
+    - installed_package_version is defined
+    - installed_package_version is version(filebeat.version, '<>')
+  notify: filebeat hold version
+
+- name: install filebeat-{{ filebeat.version }}
+  package:
+    name: "filebeat={{ filebeat.version }}*"
+    update_cache: yes
+  notify:
+    - filebeat restart
+    - filebeat hold version
+    - filebeat load index template
+
+- name: lock filebeat version
+  debug:
+    msg: "Pin filebeat version"
+  changed_when: true
+  when:
+    - filebeat.pin_version
+    - "not 'hold' in dpkg_hold.stdout"
+  notify: filebeat hold version

@@ -1,0 +1,27 @@
+---
+
+- name: filebeat restart
+  service:
+    name: filebeat
+    state: restarted
+
+- name: filebeat hold version
+  dpkg_selections:
+    name: filebeat
+    selection: hold
+  when: filebeat.pin_version
+
+- name: filebeat lock version
+  command: yum versionlock add filebeat-{{ filebeat.version }}
+  args:
+    warn: false
+  when: filebeat.pin_version
+
+- name: filebeat load index template
+  command: >
+    filebeat setup --template
+    -E output.logstash.enabled=false
+    -E output.file.enabled=false
+    -E 'output.elasticsearch.hosts=["{{ filebeat.elasticsearch.host }}:{{ filebeat.elasticsearch.port }}"]'
+  changed_when: false
+  when: filebeat.elasticsearch.upload_template

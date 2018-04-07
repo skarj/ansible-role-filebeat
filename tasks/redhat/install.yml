@@ -1,0 +1,56 @@
+---
+
+- name: get information about installed filebeat package
+  yum:
+    list: filebeat
+  check_mode: no
+  register: yum_list
+
+- name: get version of installed filebeat package
+  set_fact:
+    installed_package_version: "{{ yum_list.results | selectattr('yumstate','equalto','installed') | map(attribute='version') | first }}"
+  check_mode: no
+  when: yum_list.results | selectattr('yumstate','equalto','installed') | list | length > 0
+
+- name: get information about version locks
+  command: yum versionlock list
+  changed_when: false
+  register: yum_lock
+  args:
+    warn: false
+  check_mode: no
+  when: filebeat.pin_version
+
+- name: show filebeat version
+  debug:
+    msg: "{% if installed_package_version is defined %}Current: {{ installed_package_version }} {% endif %}Install: {{ filebeat.version }}"
+
+- name: remove version lock for filebeat package
+  command: yum versionlock delete *filebeat*
+  args:
+    warn: false
+  when:
+    - "'filebeat'in yum_lock.stdout"
+    - filebeat.pin_version
+    - installed_package_version is defined
+    - installed_package_version is version(filebeat.version, '<>')
+  notify: filebeat lock version
+
+- name: install filebeat package
+  yum:
+    name: filebeat-{{ filebeat.version }}
+    update_cache: yes
+    allow_downgrade: true
+  notify:
+    - filebeat restart
+    - filebeat lock version
+    - filebeat load index template
+
+- name: lock filebeat version
+  debug:
+    msg: "Pin filebeat version"
+  changed_when: true
+  when:
+    - filebeat.pin_version
+    - "not 'filebeat' in yum_lock.stdout"
+  notify: filebeat lock version

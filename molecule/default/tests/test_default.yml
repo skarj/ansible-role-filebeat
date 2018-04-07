@@ -1,0 +1,10 @@
+---
+
+service:
+  filebeat:
+    enabled: true
+    running: true
+
+process:
+  filebeat:
+    running: true

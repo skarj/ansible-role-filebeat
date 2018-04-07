@@ -1,0 +1,9 @@
+---
+
+- name: install on redhat host
+  import_tasks: redhat/install.yml
+  when: (ansible_os_family | lower == "redhat")
+
+- name: install debian host
+  import_tasks: debian/install.yml
+  when: (ansible_os_family | lower == "debian")

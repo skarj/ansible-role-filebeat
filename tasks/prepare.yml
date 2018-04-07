@@ -1,0 +1,9 @@
+---
+
+- name: prepare redhat host
+  import_tasks: redhat/prepare.yml
+  when: (ansible_os_family | lower == "redhat")
+
+- name: prepare debian host
+  import_tasks: debian/prepare.yml
+  when: (ansible_os_family | lower == "debian")

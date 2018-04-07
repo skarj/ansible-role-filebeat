@@ -1,0 +1,15 @@
+---
+
+- name: ensure dependencies are installed
+  package:
+    name:
+      - python-apt
+      - apt-transport-https
+
+- name: ensure Elastic repository key is present
+  apt_key:
+    url: "http://packages.elastic.co/GPG-KEY-elasticsearch"
+
+- name: ensure Elastic repository is present
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/{{ filebeat.version.split('.')[:1] | join('.') }}.x/apt stable main"

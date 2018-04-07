@@ -1,0 +1,27 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: filebeat
+      filebeat:
+
+        elasticsearch:
+          host: logstash
+          port: 9200
+          upload_template: false
+
+        options:
+          filebeat:
+            prospectors:
+
+              - document_type: syslog
+                paths:
+                  - /var/log/cron
+                  - /var/log/secure
+                  - /var/log/messages
+                type: log
+
+          output:
+            file:
+              path: "/tmp/filebeat"
+              filename: filebeat

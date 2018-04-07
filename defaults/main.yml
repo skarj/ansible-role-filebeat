@@ -1,0 +1,59 @@
+---
+
+filebeat:
+  # Version of the filebeat server
+  version: "6.2.3"
+
+  # Filebeat index template uploading to elasticsearch
+  elasticsearch:
+    host: localhost
+    port: 9200
+    upload_template: true
+
+  # Lock filebeat version
+  pin_version: true
+
+  config_path: '/etc/filebeat'
+
+  options:
+
+    filebeat:
+      # will be removed in 7.0
+      config_dir: /etc/filebeat/conf.d/
+      prospectors:
+
+    config:
+      modules:
+        # Glob pattern for configuration loading
+        path: "${path.config}/modules.d/*.yml"
+
+        # Set to true to enable config reloading
+        reload:
+          enabled: "false"
+        # Period on which files under path should be checked for changes
+          #period: 10s
+
+    output:
+
+    shipper:
+
+    logging:
+      to_syslog: false
+      to_files: true
+      level: warning
+      metrics:
+        enabled: false
+      files:
+        path: /var/log/filebeat/
+        name: filebeat.log
+        rotateeverybytes: 10485760
+
+    # Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
+    # This requires a Kibana endpoint configuration.
+    setup:
+      kibana:
+        # Kibana Host
+        # Scheme and port can be left out and will be set to the default (http and 5601)
+        # In case you specify and additional path, the scheme is required: http://localhost:5601/path
+        # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
+        #host: "localhost:5601"

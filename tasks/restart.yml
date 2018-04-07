@@ -1,0 +1,14 @@
+---
+
+- name: ensure filebeat service started and enabled
+  service:
+    name: filebeat
+    state: started
+    enabled: yes
+
+- name: restart filebeat service
+  debug:
+    msg: "restart filebeat"
+  changed_when: true
+  when: force_restart | default('no') | bool
+  notify: filebeat restart
