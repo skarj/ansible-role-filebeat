@@ -2,7 +2,7 @@
 - name: Converge
   hosts: all
   roles:
-    - role: filebeat
+    - role: ansible-role-filebeat
       filebeat:
 
         elasticsearch:
