@@ -1,4 +1,5 @@
 ---
+
 # This is an example playbook to execute goss tests.
 # Tests need distributed to the appropriate ansible host/groups
 # prior to execution by `goss validate`.
@@ -11,6 +12,7 @@
 
 - name: Verify
   hosts: all
+  become: true
   vars:
     goss_version: v0.3.2
     goss_arch: amd64
@@ -26,7 +28,6 @@
         dest: "{{ goss_dst }}"
         sha256sum: "{{ goss_sha256sum }}"
         mode: 0755
-      become: true
 
     - name: Copy Goss tests to remote
       copy:
@@ -40,10 +41,9 @@
       register: test_files
 
     - name: Execute Goss tests
-      command: "goss -g {{ item }} validate --format {{ goss_format }}"
+      command: "{{ goss_dst }} -g {{ item }} validate --format {{ goss_format }}"
       register: test_results
       with_items: "{{ test_files.stdout_lines }}"
-      ignore_errors: True
 
     - name: Display details about the goss results
       debug:

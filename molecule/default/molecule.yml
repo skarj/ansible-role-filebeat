@@ -10,10 +10,10 @@ lint:
   name: yamllint
 
 platforms:
-#  - name: filebeat-rh6
-#    image: centos:6
-#  - name: filebeat-rh7
-#    image: centos:7
+  # - name: filebeat-rh6
+  #   image: centos:6
+  # - name: filebeat-rh7
+  #   image: centos:7
   - name: filebeat-deb8
     image: debian:8
   - name: filebeat-deb9
@@ -26,8 +26,8 @@ provisioner:
   lint:
     name: ansible-lint
   options:
-    diff: True
-    become: True
+    diff: false
+    become: true
   env:
     ANSIBLE_HASH_BEHAVIOUR: merge
 
@@ -36,4 +36,6 @@ scenario:
 
 verifier:
   name: goss
-  enabled: true
+  lint:
+    name: flake8
+    enabled: false

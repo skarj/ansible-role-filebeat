@@ -13,8 +13,8 @@
     file: "elastic-{{ filebeat.version.split('.')[:1] | join('.') }}.x"
     baseurl: "https://artifacts.elastic.co/packages/{{ filebeat.version.split('.')[:1] | join('.') }}.x/yum"
     gpgkey: "http://packages.elastic.co/GPG-KEY-elasticsearch"
-    gpgcheck: yes
-    sslverify: yes
+    gpgcheck: true
+    sslverify: true
     sslcacert: /etc/pki/tls/certs/ca-bundle.crt
 
 - name: ensure yum-plugin-versionlock is installed
