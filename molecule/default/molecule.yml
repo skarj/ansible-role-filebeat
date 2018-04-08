@@ -12,16 +12,27 @@ lint:
 platforms:
   - name: filebeat-rh7
     image: solita/centos-systemd
+    command: '/bin/bash -c "exec /sbin/init --log-target=journal 3>&1"'
     capabilities:
       - SYS_ADMIN
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs: /run
+    security_opts:
+      - 'seccomp=unconfined'
+
   - name: filebeat-ubuntu16
     image: solita/ubuntu-systemd:latest
+    command: '/bin/bash -c "exec /sbin/init --log-target=journal 3>&1"'
     capabilities:
       - SYS_ADMIN
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs:
+      - /run
+      - /run/lock
+    security_opts:
+      - 'seccomp=unconfined'
 
 provisioner:
   name: ansible
