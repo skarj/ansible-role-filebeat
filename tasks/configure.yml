@@ -11,7 +11,7 @@
     content: "{{ filebeat.options | to_nice_yaml }}"
     dest: "{{ filebeat.config_path }}/filebeat.yml"
     mode: 0644
-    backup: yes
+    backup: true
     validate: filebeat test config --strict.perms=false -c %s
   notify:
     - filebeat restart
