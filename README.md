@@ -1,5 +1,6 @@
 Filebeat role
 =========
+[![Build Status](https://api.travis-ci.org/skarj/ansible-role-filebeat.svg?branch=master)](https://travis-ci.org/skarj/ansible-role-filebeat)
 
 Ansible role for [filebeat](https://www.elastic.co/products/beats/filebeat) 6.x installation.
 Versions lower than 6 are not supported by this role.
