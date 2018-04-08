@@ -1,0 +1,17 @@
+---
+
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+install:
+  - pip install molecule
+  - pip install docker-py
+
+script:
+  - ansible --version
+  - molecule --version
+  - molecule test

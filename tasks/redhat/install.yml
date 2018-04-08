@@ -3,13 +3,13 @@
 - name: get information about installed filebeat package
   yum:
     list: filebeat
-  check_mode: no
+  check_mode: false
   register: yum_list
 
 - name: get version of installed filebeat package
   set_fact:
     installed_package_version: "{{ yum_list.results | selectattr('yumstate','equalto','installed') | map(attribute='version') | first }}"
-  check_mode: no
+  check_mode: false
   when: yum_list.results | selectattr('yumstate','equalto','installed') | list | length > 0
 
 - name: get information about version locks
@@ -18,7 +18,7 @@
   register: yum_lock
   args:
     warn: false
-  check_mode: no
+  check_mode: false
   when: filebeat.pin_version
 
 - name: show filebeat version
@@ -39,7 +39,7 @@
 - name: install filebeat package
   yum:
     name: filebeat-{{ filebeat.version }}
-    update_cache: yes
+    update_cache: true
     allow_downgrade: true
   notify:
     - filebeat restart

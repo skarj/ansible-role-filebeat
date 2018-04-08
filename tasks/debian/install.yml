@@ -7,12 +7,12 @@
   register: dpkg_info
   args:
     warn: false
-  check_mode: no
+  check_mode: false
 
 - name: get version of installed filebeat package
   set_fact:
     installed_package_version: "{{ dpkg_info.stdout.split(' ')[1] }}"
-  check_mode: no
+  check_mode: false
   when:
     - dpkg_info is defined
     - dpkg_info.stdout_lines | list | length > 0
@@ -27,7 +27,7 @@
   register: dpkg_hold
   args:
     warn: false
-  check_mode: no
+  check_mode: false
   when: filebeat.pin_version
 
 - name: remove version lock for filebeat package
@@ -44,7 +44,7 @@
 - name: install filebeat-{{ filebeat.version }}
   package:
     name: "filebeat={{ filebeat.version }}*"
-    update_cache: yes
+    update_cache: true
   notify:
     - filebeat restart
     - filebeat hold version
