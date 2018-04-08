@@ -7,8 +7,8 @@ Versions lower than 6 are not supported by this role.
 Requirements
 ------------
 
-Ansible 2.5
-This role requires [hash_behaviour=merge](http://docs.ansible.com/ansible/intro_configuration.html#hash-behaviour) for variables
+* Ansible 2.5
+* This role requires [hash_behaviour=merge](http://docs.ansible.com/ansible/intro_configuration.html#hash-behaviour) for variables
 
 
 Dependencies
