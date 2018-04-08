@@ -10,16 +10,18 @@ lint:
   name: yamllint
 
 platforms:
-  # - name: filebeat-rh6
-  #   image: centos:6
-  # - name: filebeat-rh7
-  #   image: centos:7
-  - name: filebeat-deb8
-    image: debian:8
-  - name: filebeat-deb9
-    image: debian:9
+  - name: filebeat-rh7
+    image: solita/centos-systemd
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
   - name: filebeat-ubuntu16
-    image: ubuntu:16.04
+    image: solita/ubuntu-systemd:latest
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
 provisioner:
   name: ansible
