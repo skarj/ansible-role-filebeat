@@ -5,16 +5,10 @@
   roles:
     - role: ansible-role-filebeat
       filebeat:
-
-        elasticsearch:
-          host: logstash
-          port: 9200
-          upload_template: false
-
         options:
+
           filebeat:
             prospectors:
-
               - document_type: syslog
                 paths:
                   - /var/log/cron
