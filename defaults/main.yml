@@ -4,13 +4,14 @@ filebeat:
   # Version of the filebeat service
   version: "6.2.3"
 
-  # Filebeat index template uploading
+  # By default, Filebeat automatically loads the recommended index template,
+  # if the Elasticsearch output is enabled.
+  # Use this configuration if Logstash output is useed:
   elasticsearch:
-    host: localhost
-    port: 9200
-    upload_template: true
+    host: "localhost:9200"
+    upload_template: false
 
-  # Lock/pin filebeat version
+  # Lock/hold filebeat version
   pin_version: true
 
   config_path: '/etc/filebeat'

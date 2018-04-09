@@ -22,6 +22,6 @@
     filebeat setup --template
     -E output.logstash.enabled=false
     -E output.file.enabled=false
-    -E 'output.elasticsearch.hosts=["{{ filebeat.elasticsearch.host }}:{{ filebeat.elasticsearch.port }}"]'
+    -E 'output.elasticsearch.hosts=["{{ filebeat.elasticsearch.host }}"]'
   changed_when: false
   when: filebeat.elasticsearch.upload_template
