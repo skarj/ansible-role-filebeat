@@ -9,7 +9,7 @@ Requirements
 ------------
 
 * Ansible 2.5
-* This role requires [hash_behaviour=merge](http://docs.ansible.com/ansible/intro_configuration.html#hash-behaviour) for variables
+* This role requires [hash_behaviour=merge](http://docs.ansible.com/ansible/latest/reference_appendices/config.html#default-hash-behaviour) for variables
 
 
 Dependencies
