@@ -1,16 +1,16 @@
 ---
 
 filebeat:
-  # Version of the filebeat server
+  # Version of the filebeat service
   version: "6.2.3"
 
-  # Filebeat index template uploading to elasticsearch
+  # Filebeat index template uploading
   elasticsearch:
     host: localhost
     port: 9200
     upload_template: true
 
-  # Lock filebeat version
+  # Lock/pin filebeat version
   pin_version: true
 
   config_path: '/etc/filebeat'
