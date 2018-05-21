@@ -41,7 +41,7 @@
     - installed_package_version is version(filebeat.version, '<>')
   notify: filebeat hold version
 
-- name: install filebeat-{{ filebeat.version }}
+- name: install filebeat
   package:
     name: "filebeat={{ filebeat.version }}*"
     update_cache: true
