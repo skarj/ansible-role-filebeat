@@ -43,6 +43,8 @@ provisioner:
     become: true
   env:
     ANSIBLE_HASH_BEHAVIOUR: merge
+    ANSIBLE_LOCAL_TEMP: $HOME/.ansible/tmp
+    ANSIBLE_REMOTE_TEMP: $HOME/.ansible/tmp
 
 scenario:
   name: default
