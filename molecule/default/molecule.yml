@@ -17,7 +17,8 @@ platforms:
       - SYS_ADMIN
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    tmpfs: /run
+    tmpfs:
+      - /run
     security_opts:
       - 'seccomp=unconfined'
 
