@@ -9,7 +9,7 @@ services:
 
 install:
   - pip install molecule
-  - pip install docker-py
+  - pip install docker
 
 script:
   - ansible --version
