@@ -33,7 +33,7 @@ An example of how to use this role:
 
     - hosts: all
       roles:
-        - role: filebeat
+        - role: ansible-role-filebeat
           filebeat:
             options:
               filebeat:
