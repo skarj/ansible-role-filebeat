@@ -2,7 +2,7 @@
 
 filebeat:
   # Version of the filebeat service
-  version: "6.3.1"
+  version: "6.3.2"
 
   # By default, Filebeat automatically loads the recommended index template,
   # if the Elasticsearch output is enabled.
